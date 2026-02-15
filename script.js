@@ -4,7 +4,19 @@ const toast = document.getElementById("toast");
 const mensaje = document.getElementById("mensaje");
 const musica = document.getElementById("musica");
 
-let musicaActiva = false;
+let musicaLista = false;
+
+/* PREPARA EL AUDIO AL PRIMER TOQUE */
+document.addEventListener("click", () => {
+  if(!musicaLista){
+    musica.volume = 0.6;
+    musica.play().then(()=>{
+      musica.pause();
+      musica.currentTime = 0;
+      musicaLista = true;
+    }).catch(()=>{});
+  }
+}, {once:true});
 
 function showToast(texto){
   toast.textContent = texto;
@@ -33,15 +45,11 @@ function confettiMini(){
   }
 }
 
+/* BOTÓN SORPRESA */
 btnSorpresa.onclick=()=>{
   confettiMini();
   showToast("Para ti 💞");
-
-  if(!musicaActiva){
-    musica.volume=0.6;
-    musica.play();
-    musicaActiva=true;
-  }
+  musica.play();
 }
 
 btnCopiar.onclick=async()=>{
